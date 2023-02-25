@@ -24,9 +24,9 @@ public class UserEntity {
 
     private String firstName, lastName, username, emailAddress, password;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private final LocalDateTime createdAt = LocalDateTime.now();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST})
     private List<RoleEntity> roles = new ArrayList<>();
 
 }
