@@ -1,6 +1,8 @@
 package africa.semicolon.evoting.services.impl;
 
+import africa.semicolon.evoting.data.dtos.requests.ChangePasswordRequestDto;
 import africa.semicolon.evoting.data.dtos.requests.LoginRequestDto;
+import africa.semicolon.evoting.data.dtos.requests.ResetPasswordRequestDto;
 import africa.semicolon.evoting.data.dtos.requests.SignupRequestDto;
 import africa.semicolon.evoting.data.dtos.responses.TokenResponseDto;
 import africa.semicolon.evoting.data.models.RoleEntity;
@@ -68,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
     public TokenResponseDto login(@Valid LoginRequestDto request) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getEmailAddress(),
+                    new UsernamePasswordAuthenticationToken(request.getEmail(),
                             request.getPassword())
             );
             String token = jwtGenerator.generateToken(authentication);
@@ -76,6 +78,14 @@ public class AuthServiceImpl implements AuthService {
         } catch (Exception e) {
             throw new InvalidLoginDetailsException();
         }
+    }
+
+    @Override
+    public void resetPassword(ResetPasswordRequestDto request) {
+    }
+
+    @Override
+    public void changePassword(ChangePasswordRequestDto request) {
     }
 
     @Override

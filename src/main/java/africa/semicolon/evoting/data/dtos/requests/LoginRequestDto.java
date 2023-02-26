@@ -12,7 +12,7 @@ public class LoginRequestDto {
 
     @NotBlank(message = "email is required")
     @Pattern(regexp = RegexPattern.EMAIL, message = "Invalid email address")
-    private String emailAddress;
+    private String email;
 
     @NotBlank(message = "password is required")
     private String password;

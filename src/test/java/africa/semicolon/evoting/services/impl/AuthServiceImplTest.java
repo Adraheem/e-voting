@@ -62,7 +62,7 @@ class AuthServiceImplTest {
         authService.signup(signupRequest);
 
         LoginRequestDto request = LoginRequestDto.builder()
-                .emailAddress("johndoe@gmail.com")
+                .email("johndoe@gmail.com")
                 .password("JohnDoe555!")
                 .build();
 
