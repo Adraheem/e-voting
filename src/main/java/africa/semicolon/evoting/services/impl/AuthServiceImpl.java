@@ -7,13 +7,13 @@ import africa.semicolon.evoting.data.dtos.requests.SignupRequestDto;
 import africa.semicolon.evoting.data.dtos.responses.TokenResponseDto;
 import africa.semicolon.evoting.data.models.RoleEntity;
 import africa.semicolon.evoting.data.models.UserEntity;
-import africa.semicolon.evoting.data.repositories.UserRepository;
 import africa.semicolon.evoting.exceptions.specific.EmailAlreadyUsedException;
 import africa.semicolon.evoting.exceptions.specific.InternalServerErrorException;
 import africa.semicolon.evoting.exceptions.specific.InvalidLoginDetailsException;
 import africa.semicolon.evoting.security.JwtGenerator;
 import africa.semicolon.evoting.services.AuthService;
 import africa.semicolon.evoting.services.RoleService;
+import africa.semicolon.evoting.services.UserService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -34,7 +34,7 @@ import java.util.Collections;
 @Transactional
 public class AuthServiceImpl implements AuthService {
 
-    private UserRepository userRepository;
+    private UserService userService;
     private PasswordEncoder passwordEncoder;
     private JwtGenerator jwtGenerator;
     private AuthenticationManager authenticationManager;
@@ -42,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public TokenResponseDto signup(@Valid SignupRequestDto request) {
-        if (userRepository.existsByUsername(request.getEmail())) {
+        if (userService.exists(request.getEmail())) {
             throw new EmailAlreadyUsedException();
         }
 
@@ -57,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
                 .roles(Collections.singletonList(userRole))
                 .build();
 
-        userRepository.save(newUser);
+        userService.save(newUser);
 
         String token = jwtGenerator.generateToken(newUser);
 
@@ -86,10 +86,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void changePassword(ChangePasswordRequestDto request) {
+
     }
 
     @Override
     public void deleteAll() {
-        userRepository.deleteAll();
+        userService.deleteAll();
     }
 }

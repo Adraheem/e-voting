@@ -2,6 +2,7 @@ package africa.semicolon.evoting.data.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,21 +17,18 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
-public class UserEntity {
+@Table(name = "groups")
+public class GroupEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String firstName, lastName, username, emailAddress, password;
+    private String name;
 
-    private final LocalDateTime createdAt = LocalDateTime.now();
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST})
-    private List<RoleEntity> roles = new ArrayList<>();
-
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Address address;
+    private final LocalDateTime created_at = LocalDateTime.now();
 
 }
