@@ -1,4 +1,4 @@
-# E-voting Application
+# E-voting Application 🗳️
 A practice Java Spring boot application that allows users to signup, login, vote and be voted for.
 
 User can belong to many groups and cann participate in any election created for their group.
