@@ -2,6 +2,7 @@ package africa.semicolon.evoting.services.impl;
 
 import africa.semicolon.evoting.data.dtos.requests.CreateElectionRequestDto;
 import africa.semicolon.evoting.data.dtos.responses.ElectionDto;
+import africa.semicolon.evoting.data.dtos.responses.ElectionResultDto;
 import africa.semicolon.evoting.data.models.ElectionEntity;
 import africa.semicolon.evoting.data.models.GroupEntity;
 import africa.semicolon.evoting.data.repositories.ElectionRepository;
@@ -11,6 +12,8 @@ import africa.semicolon.evoting.services.ElectionService;
 import africa.semicolon.evoting.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ElectionServiceImpl implements ElectionService {
@@ -71,5 +74,10 @@ public class ElectionServiceImpl implements ElectionService {
     public void deleteElection(Long electionId) {
         ElectionEntity election = this.getElectionEntity(electionId);
         electionRepository.delete(election);
+    }
+
+    @Override
+    public List<ElectionResultDto> getElectionResult(Long electionId) {
+        return null;
     }
 }

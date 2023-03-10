@@ -1,6 +1,7 @@
 package africa.semicolon.evoting.data.dtos.requests;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
 @Builder
 public class GroupRequestDto {
 
-    @NotBlank(message = "id is required")
+    @NotNull(message = "id is required")
     private Long id;
 
     @NotBlank(message = "Group name is required")

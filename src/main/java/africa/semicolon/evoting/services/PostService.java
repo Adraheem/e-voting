@@ -16,7 +16,7 @@ public interface PostService {
 
     PostEntity getPostEntity(Long id);
 
-    List<PostEntity> getPostsByElectionId(Long electionId);
+    List<PostDto> getPostsByElectionId(Long electionId);
 
     void deletePost(Long id);
 

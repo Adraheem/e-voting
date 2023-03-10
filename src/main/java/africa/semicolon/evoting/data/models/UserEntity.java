@@ -23,13 +23,17 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String firstName, lastName, username, emailAddress, password;
+    private String firstName, lastName, username, emailAddress;
+
+    @JsonIgnore
+    private String password;
 
     private final LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST})
     private List<RoleEntity> roles = new ArrayList<>();
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Address address;
 

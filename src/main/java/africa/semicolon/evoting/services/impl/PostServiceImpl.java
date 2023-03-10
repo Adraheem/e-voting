@@ -3,42 +3,40 @@ package africa.semicolon.evoting.services.impl;
 import africa.semicolon.evoting.data.dtos.requests.CreatePostRequestDto;
 import africa.semicolon.evoting.data.dtos.responses.PostDto;
 import africa.semicolon.evoting.data.models.ElectionEntity;
+import africa.semicolon.evoting.data.models.OfficeEntity;
 import africa.semicolon.evoting.data.models.PostEntity;
 import africa.semicolon.evoting.data.models.UserEntity;
 import africa.semicolon.evoting.data.repositories.PostRepository;
 import africa.semicolon.evoting.exceptions.specific.PostNotFoundException;
 import africa.semicolon.evoting.exceptions.specific.UserNotFoundException;
 import africa.semicolon.evoting.services.ElectionService;
+import africa.semicolon.evoting.services.OfficeService;
 import africa.semicolon.evoting.services.PostService;
 import africa.semicolon.evoting.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class PostServiceImpl implements PostService {
 
     private PostRepository postRepository;
     private ElectionService electionService;
     private UserService userService;
 
-    @Autowired
-    public PostServiceImpl(PostRepository postRepository, ElectionService electionService, UserService userService) {
-        this.postRepository = postRepository;
-        this.electionService = electionService;
-        this.userService = userService;
-    }
+    private OfficeService officeService;
 
     @Override
     public PostDto createPost(CreatePostRequestDto request) {
-        ElectionEntity election = electionService.getElectionEntity(request.getElectionId());
         UserEntity user = userService.findById(request.getUserId()).orElseThrow(UserNotFoundException::new);
+        OfficeEntity office = officeService.getById(request.getOfficeId());
 
         PostEntity post = PostEntity.builder()
-                .office(request.getOffice())
+                .office(office)
                 .user(user)
-                .election(election)
                 .build();
 
         PostEntity savedPost = postRepository.save(post);
@@ -49,12 +47,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto updatePost(PostDto request) {
         PostEntity post = this.getPostEntity(request.getId());
-        ElectionEntity election = electionService.getElectionEntity(request.getElection().getId());
         UserEntity user = userService.findById(request.getUser().getId()).orElseThrow(UserNotFoundException::new);
+        OfficeEntity office = officeService.getById(request.getOffice().getId());
 
-        post.setOffice(request.getOffice());
+        post.setOffice(office);
         post.setUser(user);
-        post.setElection(election);
 
         PostEntity savedPost = postRepository.save(post);
 
@@ -73,9 +70,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostEntity> getPostsByElectionId(Long electionId) {
+    public List<PostDto> getPostsByElectionId(Long electionId) {
         ElectionEntity election = electionService.getElectionEntity(electionId);
-        return postRepository.findAllByElection_Id(election.getId());
+        return postRepository.findAllByOffice_Election_Id(election.getId())
+                .stream()
+                .map(PostDto::map)
+                .collect(Collectors.toList());
     }
 
     @Override

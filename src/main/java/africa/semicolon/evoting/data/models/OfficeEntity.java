@@ -1,5 +1,6 @@
 package africa.semicolon.evoting.data.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,17 +12,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "posts")
-public class PostEntity {
+@Table(name = "offices")
+public class OfficeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private OfficeEntity office;
+    private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private UserEntity user;
+    private ElectionEntity election;
 
 }

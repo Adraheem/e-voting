@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface PostRepository extends JpaRepository<PostEntity, Long> {
-    List<PostEntity> findAllByElection_Id(Long election_id);
+    List<PostEntity> findAllByOffice_Election_Id(Long election_id);
 }

@@ -2,13 +2,17 @@ package africa.semicolon.evoting.data.dtos.responses;
 
 import africa.semicolon.evoting.data.models.ElectionEntity;
 import africa.semicolon.evoting.data.models.GroupEntity;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ElectionDto {
 
     private Long id;

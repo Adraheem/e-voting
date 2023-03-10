@@ -5,14 +5,12 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CreatePostRequestDto {
+public class CreateOfficeRequestDto {
 
     private Long id;
 
-    private Long officeId;
+    private String name;
 
     private Long electionId;
-
-    private Long userId;
 
 }

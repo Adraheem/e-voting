@@ -6,6 +6,7 @@ import africa.semicolon.evoting.data.models.PostEntity;
 import africa.semicolon.evoting.data.models.UserEntity;
 import africa.semicolon.evoting.data.models.VoteEntity;
 import africa.semicolon.evoting.data.repositories.VoteRepository;
+import africa.semicolon.evoting.exceptions.specific.UserAlreadyVotedException;
 import africa.semicolon.evoting.services.PostService;
 import africa.semicolon.evoting.services.UserService;
 import africa.semicolon.evoting.services.VoteService;
@@ -17,9 +18,9 @@ import java.util.List;
 @Service
 public class VoteServiceImpl implements VoteService {
 
-    private VoteRepository voteRepository;
-    private PostService postService;
-    private UserService userService;
+    private final VoteRepository voteRepository;
+    private final PostService postService;
+    private final UserService userService;
 
     @Autowired
     public VoteServiceImpl(VoteRepository voteRepository, PostService postService, UserService userService) {
@@ -32,6 +33,9 @@ public class VoteServiceImpl implements VoteService {
     public VoteDto vote(CreateVoteRequestDto request) {
         UserEntity user = userService.getCurrentUser();
         PostEntity post = postService.getPostEntity(request.getPostId());
+
+        if (voteRepository.existsByUserAndPost_Office(user, post.getOffice())
+        ) throw new UserAlreadyVotedException();
 
         VoteEntity vote = VoteEntity.builder()
                 .user(user)

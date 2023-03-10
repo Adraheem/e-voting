@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -74,9 +75,7 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public List<UserEntity> findAllUsersInGroup(Long groupId) {
         GroupEntity group = this.findById(groupId).orElseThrow(GroupNotFoundException::new);
-        var users = userGroupRepository.findAllByGroup(group);
-        log.info(users.toString());
-        return null;
+        return userGroupRepository.findAllByGroup(group).stream().map(UserGroupEntity::getUser).collect(Collectors.toList());
     }
 
     @Override
