@@ -26,5 +26,5 @@ public class VoteEntity {
     @ManyToOne
     private PostEntity post;
 
-    private final LocalDateTime created_at = LocalDateTime.now();
+    private final LocalDateTime createdAt = LocalDateTime.now();
 }

@@ -3,8 +3,11 @@ package africa.semicolon.evoting.services.impl;
 import africa.semicolon.evoting.data.models.UserEntity;
 import africa.semicolon.evoting.data.repositories.UserGroupRepository;
 import africa.semicolon.evoting.data.repositories.UserRepository;
+import africa.semicolon.evoting.exceptions.specific.UnauthorizedRequestException;
+import africa.semicolon.evoting.security.AuthenticatedUser;
 import africa.semicolon.evoting.services.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,6 +39,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserEntity> findAllByGroupId(Long groupId) {
         return null;
+    }
+
+    @Override
+    public UserEntity getCurrentUser() {
+        AuthenticatedUser authenticatedUser =
+                (AuthenticatedUser) SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
+
+        return userRepository.findByUsername(authenticatedUser.getUsername()).orElseThrow(
+                UnauthorizedRequestException::new
+        );
     }
 
     @Override

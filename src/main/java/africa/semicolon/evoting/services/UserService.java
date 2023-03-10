@@ -15,5 +15,7 @@ public interface UserService {
 
     List<UserEntity> findAllByGroupId(Long groupId);
 
+    UserEntity getCurrentUser();
+
     void deleteAll();
 }

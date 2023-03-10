@@ -38,4 +38,5 @@ public class ElectionDto {
     public static ElectionDto map(ElectionEntity election) {
         return new ElectionDto(election);
     }
+
 }

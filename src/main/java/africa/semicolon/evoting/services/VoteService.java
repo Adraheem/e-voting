@@ -12,4 +12,6 @@ public interface VoteService {
 
     List<VoteEntity> getVotesByPostId(Long id);
 
+    Long getVoteCountByPostId(Long id);
+
 }

@@ -31,6 +31,6 @@ public class ElectionEntity {
     private final LocalDateTime createdAt = LocalDateTime.now();
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private GroupEntity group;
 }
