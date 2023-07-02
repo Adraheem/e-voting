@@ -12,8 +12,9 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @OpenAPIDefinition(
         info = @Info(
                 title = "e-Voting API",
-                description = "API documentation for e-voting application that allows users to vote for their " +
-                        "respective candidates",
+                description = """
+                        API documentation for e-voting application that allows users to vote for their respective candidates in an active election
+                """,
                 version = "0.1.0"
         ),
         externalDocs = @ExternalDocumentation(
